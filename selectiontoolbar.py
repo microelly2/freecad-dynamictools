@@ -20,8 +20,8 @@
 #*                                                                         *
 #***************************************************************************
 
-
 import FreeCAD,FreeCADGui
+import datetime
 
 global selpairs
 global signatur
@@ -164,15 +164,13 @@ conf:
 
 
 import yaml
+global config3
+config3 = yaml.load(stream)
 
 def nn():
 	FreeCAD.Console.PrintMessage("nn")
 	fn="/usr/lib/freecad/Mod/plugins/selectiontoolbar.py";exec open(fn).read()
 	FreeCAD.Console.PrintMessage("nn")
-
-global config3
-
-config3 = yaml.load(stream)
 
 def starter(show=True):
 	show=False
@@ -181,9 +179,7 @@ def starter(show=True):
 	global config3
 	FreeCAD.Console.PrintMessage("\nStarter ....\n")
 	FreeCAD.Console.PrintMessage("\nsignatur=" + signatur +"\n")
-	
 	mw=FreeCAD.Gui.getMainWindow()
-
 	mw.toolbar=None
 	toolbars = mw.findChildren(QtGui.QToolBar)
 	print toolbars
@@ -193,22 +189,18 @@ def starter(show=True):
 		if wt == 'www Y':
 			mw.toolbar=t
 			Msg("gefunden")
-
-
 	if not mw.toolbar:
 		Msg("erzeugnt")
 		mw.toolbar = mw.addToolBar("www")
-		
 		mw.toolbar.setWindowTitle("www Y" )
 		mw.toolbar.hide()
 	mw.toolbar.hide()
-	
 	mw.toolbar.setStyleSheet("\
 				QWidget { background-color: transparent;}\
-				QToolBar {border:1px solid white;padding:2px;}\
+				QToolBar {border:1px solid white;padding:0px;}\
+				QToolBar:hover { background-color: yellow;}\
 				")
 	mw.toolbar.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-
 	twas=mw.toolbar.actions()
 	for a in twas:
 		FreeCAD.Console.PrintMessage(str(a) +" Starter loesche aktion....")
@@ -237,7 +229,7 @@ def starter(show=True):
 			print myAction2
 			mw.toolbar.addAction(myAction2)
 	l=len(mw.toolbar.actions())
-	mw.toolbar.resize(50*l,50)
+	mw.toolbar.resize(40*l,10)
 	
 	if show:
 		FreeCAD.Console.PrintError("show  aktion\n")
@@ -254,8 +246,6 @@ def starter(show=True):
 		eAction.triggered.connect(nn)
 		mw.toolbar.addAction(eAction)
 	FreeCAD.Console.PrintMessage("\nStarter  fertig\n")
-
-import datetime
 
 
 
